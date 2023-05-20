@@ -10,10 +10,13 @@ import AddIcon from "../icons/add.svg";
 import CloseIcon from "../icons/close.svg";
 import MaskIcon from "../icons/mask.svg";
 import PluginIcon from "../icons/plugin.svg";
+import LightIcon from "../icons/light.svg";
+import DarkIcon from "../icons/dark.svg";
+import AutoIcon from "../icons/auto.svg";
 
 import Locale from "../locales";
 
-import { useAppConfig, useChatStore } from "../store";
+import { useAppConfig, useChatStore, Theme } from "../store";
 
 import {
   MAX_SIDEBAR_WIDTH,
@@ -110,6 +113,16 @@ export function SideBar(props: { className?: string }) {
   const navigate = useNavigate();
   const config = useAppConfig();
 
+  // switch themes
+  const theme = config.theme;
+  function nextTheme() {
+    const themes = [Theme.Auto, Theme.Light, Theme.Dark];
+    const themeIndex = themes.indexOf(theme);
+    const nextIndex = (themeIndex + 1) % themes.length;
+    const nextTheme = themes[nextIndex];
+    config.update((config) => (config.theme = nextTheme));
+  }
+
   useHotKey();
 
   return (
@@ -119,9 +132,9 @@ export function SideBar(props: { className?: string }) {
       }`}
     >
       <div className={styles["sidebar-header"]}>
-        <div className={styles["sidebar-title"]}>ChatGPT Next</div>
+        <div className={styles["sidebar-title"]}>JudiSearch</div>
         <div className={styles["sidebar-sub-title"]}>
-          Build your own AI assistant.
+          L'assistant juridique qui répond à vos questions sur le droit du travail français.
         </div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
           <ChatGptIcon />
@@ -129,20 +142,20 @@ export function SideBar(props: { className?: string }) {
       </div>
 
       <div className={styles["sidebar-header-bar"]}>
-        <IconButton
+        {/* <IconButton
           icon={<MaskIcon />}
           text={shouldNarrow ? undefined : Locale.Mask.Name}
           className={styles["sidebar-bar-button"]}
           onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
           shadow
-        />
-        <IconButton
+        /> */}
+        {/* <IconButton
           icon={<PluginIcon />}
           text={shouldNarrow ? undefined : Locale.Plugin.Name}
           className={styles["sidebar-bar-button"]}
           onClick={() => showToast(Locale.WIP)}
           shadow
-        />
+        /> */}
       </div>
 
       <div
@@ -170,13 +183,33 @@ export function SideBar(props: { className?: string }) {
           </div>
           <div className={styles["sidebar-action"]}>
             <Link to={Path.Settings}>
-              <IconButton icon={<SettingsIcon />} shadow />
+              <IconButton 
+              icon={<SettingsIcon />} 
+              text={shouldNarrow ? undefined : Locale.Settings.Title}
+              shadow />
             </Link>
           </div>
-          <div className={styles["sidebar-action"]}>
-            <a href={REPO_URL} target="_blank">
-              <IconButton icon={<GithubIcon />} shadow />
-            </a>
+          <div 
+            className={styles["sidebar-action"]}
+            onClick={nextTheme}
+          >
+          {theme === Theme.Auto ? (
+            <IconButton 
+            icon={<AutoIcon />} 
+            text={shouldNarrow ? undefined : Locale.Settings.Theme} 
+            shadow />
+          ) : theme === Theme.Light ? (
+            <IconButton 
+            icon={<LightIcon />} 
+            text={shouldNarrow ? undefined : Locale.Settings.Theme} 
+            shadow />
+          ) : theme === Theme.Dark ? (
+            <IconButton 
+            icon={<DarkIcon />} 
+            text={shouldNarrow ? undefined : Locale.Settings.Theme} 
+            shadow />
+          ) : null}
+            
           </div>
         </div>
         <div>

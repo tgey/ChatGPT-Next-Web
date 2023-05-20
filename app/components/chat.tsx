@@ -107,56 +107,56 @@ export function SessionConfigModel(props: { onClose: () => void }) {
   const maskStore = useMaskStore();
   const navigate = useNavigate();
 
-  return (
-    <div className="modal-mask">
-      <Modal
-        title={Locale.Context.Edit}
-        onClose={() => props.onClose()}
-        actions={[
-          <IconButton
-            key="reset"
-            icon={<ResetIcon />}
-            bordered
-            text={Locale.Chat.Config.Reset}
-            onClick={() =>
-              confirm(Locale.Memory.ResetConfirm) && chatStore.resetSession()
-            }
-          />,
-          <IconButton
-            key="copy"
-            icon={<CopyIcon />}
-            bordered
-            text={Locale.Chat.Config.SaveAs}
-            onClick={() => {
-              navigate(Path.Masks);
-              setTimeout(() => {
-                maskStore.create(session.mask);
-              }, 500);
-            }}
-          />,
-        ]}
-      >
-        <MaskConfig
-          mask={session.mask}
-          updateMask={(updater) => {
-            const mask = { ...session.mask };
-            updater(mask);
-            chatStore.updateCurrentSession((session) => (session.mask = mask));
-          }}
-          extraListItems={
-            session.mask.modelConfig.sendMemory ? (
-              <ListItem
-                title={`${Locale.Memory.Title} (${session.lastSummarizeIndex} of ${session.messages.length})`}
-                subTitle={session.memoryPrompt || Locale.Memory.EmptyContent}
-              ></ListItem>
-            ) : (
-              <></>
-            )
-          }
-        ></MaskConfig>
-      </Modal>
-    </div>
-  );
+  // return (
+  //   <div className="modal-mask">
+  //     <Modal
+  //       title={Locale.Context.Edit}
+  //       onClose={() => props.onClose()}
+  //       actions={[
+  //         <IconButton
+  //           key="reset"
+  //           icon={<ResetIcon />}
+  //           bordered
+  //           text={Locale.Chat.Config.Reset}
+  //           onClick={() =>
+  //             confirm(Locale.Memory.ResetConfirm) && chatStore.resetSession()
+  //           }
+  //         />,
+  //         <IconButton
+  //           key="copy"
+  //           icon={<CopyIcon />}
+  //           bordered
+  //           text={Locale.Chat.Config.SaveAs}
+  //           onClick={() => {
+  //             navigate(Path.Masks);
+  //             setTimeout(() => {
+  //               maskStore.create(session.mask);
+  //             }, 500);
+  //           }}
+  //         />,
+  //       ]}
+  //     >
+  //       <MaskConfig
+  //         mask={session.mask}
+  //         updateMask={(updater) => {
+  //           const mask = { ...session.mask };
+  //           updater(mask);
+  //           chatStore.updateCurrentSession((session) => (session.mask = mask));
+  //         }}
+  //         extraListItems={
+  //           session.mask.modelConfig.sendMemory ? (
+  //             <ListItem
+  //               title={`${Locale.Memory.Title} (${session.lastSummarizeIndex} of ${session.messages.length})`}
+  //               subTitle={session.memoryPrompt || Locale.Memory.EmptyContent}
+  //             ></ListItem>
+  //           ) : (
+  //             <></>
+  //           )
+  //         }
+  //       ></MaskConfig>
+  //     </Modal>
+  //   </div>
+  // );
 }
 
 function PromptToast(props: {
@@ -182,9 +182,9 @@ function PromptToast(props: {
           </span>
         </div>
       )}
-      {props.showModal && (
+      {/* {props.showModal && (
         <SessionConfigModel onClose={() => props.setShowModal(false)} />
-      )}
+      )} */}
     </div>
   );
 }
@@ -320,15 +320,15 @@ export function ChatActions(props: {
   const config = useAppConfig();
   const navigate = useNavigate();
 
-  // switch themes
-  const theme = config.theme;
-  function nextTheme() {
-    const themes = [Theme.Auto, Theme.Light, Theme.Dark];
-    const themeIndex = themes.indexOf(theme);
-    const nextIndex = (themeIndex + 1) % themes.length;
-    const nextTheme = themes[nextIndex];
-    config.update((config) => (config.theme = nextTheme));
-  }
+  // // switch themes
+  // const theme = config.theme;
+  // function nextTheme() {
+  //   const themes = [Theme.Auto, Theme.Light, Theme.Dark];
+  //   const themeIndex = themes.indexOf(theme);
+  //   const nextIndex = (themeIndex + 1) % themes.length;
+  //   const nextTheme = themes[nextIndex];
+  //   config.update((config) => (config.theme = nextTheme));
+  // }
 
   // stop all responses
   const couldStop = ChatControllerPool.hasPending();
@@ -352,16 +352,16 @@ export function ChatActions(props: {
           <BottomIcon />
         </div>
       )}
-      {props.hitBottom && (
+      {/* {props.hitBottom && (
         <div
           className={`${chatStyle["chat-input-action"]} clickable`}
           onClick={props.showPromptModal}
         >
           <BrainIcon />
         </div>
-      )}
+      )} */}
 
-      <div
+      {/* <div
         className={`${chatStyle["chat-input-action"]} clickable`}
         onClick={nextTheme}
       >
@@ -372,23 +372,23 @@ export function ChatActions(props: {
         ) : theme === Theme.Dark ? (
           <DarkIcon />
         ) : null}
-      </div>
+      </div> */}
 
-      <div
+      {/* <div
         className={`${chatStyle["chat-input-action"]} clickable`}
         onClick={props.showPromptHints}
       >
         <PromptIcon />
-      </div>
+      </div> */}
 
-      <div
+      {/* <div
         className={`${chatStyle["chat-input-action"]} clickable`}
         onClick={() => {
           navigate(Path.Masks);
         }}
       >
         <MaskIcon />
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -663,6 +663,7 @@ export function Chat() {
           <div className="window-action-button">
             <IconButton
               icon={<RenameIcon />}
+              text={Locale.Chat.Rename}
               bordered
               onClick={renameSession}
             />
@@ -672,6 +673,7 @@ export function Chat() {
               icon={<ExportIcon />}
               bordered
               title={Locale.Chat.Actions.Export}
+              text={Locale.Export.Download}
               onClick={() => {
                 exportMessages(
                   session.messages.filter((msg) => !msg.isError),
