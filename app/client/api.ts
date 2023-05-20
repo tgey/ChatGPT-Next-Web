@@ -1,6 +1,7 @@
 import { ACCESS_CODE_PREFIX } from "../constant";
-import { ModelConfig, ModelType, useAccessStore } from "../store";
+import { ChatMessage, ModelConfig, ModelType, useAccessStore } from "../store";
 import { ChatGPTApi } from "./platforms/openai";
+import { LocalApi } from "./platforms/local";
 
 export const ROLES = ["system", "user", "assistant"] as const;
 export type MessageRole = (typeof ROLES)[number];
@@ -23,7 +24,7 @@ export interface LLMConfig {
 }
 
 export interface ChatOptions {
-  messages: RequestMessage[];
+  messages: string | ChatMessage[];
   config: LLMConfig;
 
   onUpdate?: (message: string, chunk: string) => void;
@@ -46,7 +47,7 @@ export class ClientApi {
   public llm: LLMApi;
 
   constructor() {
-    this.llm = new ChatGPTApi();
+    this.llm = new LocalApi();
   }
 
   config() {}

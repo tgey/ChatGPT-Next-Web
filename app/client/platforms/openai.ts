@@ -27,10 +27,11 @@ export class ChatGPTApi implements LLMApi {
   }
 
   async chat(options: ChatOptions) {
-    const messages = options.messages.map((v) => ({
-      role: v.role,
-      content: v.content,
-    }));
+    const messages = options.messages
+    // .map((v) => ({
+    //   role: v.role,
+    //   content: v.content,
+    // }));
 
     const modelConfig = {
       ...useAppConfig.getState().modelConfig,
