@@ -15,7 +15,8 @@ export class LocalApi implements LLMApi {
   public SubsPath = "dashboard/billing/subscription";
 
   path(path: string): string {
-      return `ws://0.0.0.0:8000/${path}`;
+      const protocol = window.location.protocol.includes('https') ? 'wss': 'ws'
+      return `${protocol}://${location.hostname}:8000/${path}`;
   }
 
   extractMessage(res: any) {
