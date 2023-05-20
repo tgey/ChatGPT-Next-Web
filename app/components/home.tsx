@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 import styles from "./home.module.scss";
 
-import BotIcon from "../icons/bot.svg";
+import BotIcon from "../icons/law.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 
 import { getCSSVar, useMobileScreen } from "../utils";
@@ -69,14 +69,14 @@ export function useSwitchTheme() {
       'meta[name="theme-color"][media*="light"]',
     );
 
-    if (config.theme === "auto") {
-      metaDescriptionDark?.setAttribute("content", "#151515");
-      metaDescriptionLight?.setAttribute("content", "#fafafa");
-    } else {
+    // if (config.theme === "auto") {
+    //   metaDescriptionDark?.setAttribute("content", "#151515");
+    //   metaDescriptionLight?.setAttribute("content", "#fafafa");
+    // } else {
       const themeColor = getCSSVar("--theme-color");
       metaDescriptionDark?.setAttribute("content", themeColor);
       metaDescriptionLight?.setAttribute("content", themeColor);
-    }
+    // }
   }, [config.theme]);
 }
 

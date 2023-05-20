@@ -28,7 +28,7 @@ const fr: LocaleType = {
       if (submitKey === String(SubmitKey.Enter)) {
         inputHints += ", Shift + Enter pour insérer un saut de ligne";
       }
-      return inputHints + ", / pour rechercher des prompts";
+      return inputHints;
     },
     Send: "Envoyer",
     Config: {
@@ -95,7 +95,7 @@ const fr: LocaleType = {
       SubTitle: "Ajuste la taille de police du contenu de la conversation",
     },
     Update: {
-      Version: (x: string) => `Version : ${x}`,
+      Version: (x: string) => `Version :`,
       IsLatest: "Dernière version",
       CheckUpdate: "Vérifier la mise à jour",
       IsChecking: "Vérification de la mise à jour...",

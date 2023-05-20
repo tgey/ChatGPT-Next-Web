@@ -564,10 +564,15 @@
 }
 
 .loading-content {
+  height: 150px;
+  min-height: 30px;
+  width: 150px;
+  min-width: 30px;
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
+  border: var(--border-in-light);
+  box-shadow: var(--card-shadow);
+  border-radius: 10px;
 }

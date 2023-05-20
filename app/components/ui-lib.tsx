@@ -37,7 +37,7 @@ export function Card(props: { children: JSX.Element[]; className?: string }) {
 export function ListItem(props: {
   title: string;
   subTitle?: string;
-  children?: JSX.Element | JSX.Element[];
+  children?: JSX.Element | JSX.Element[] | string;
   icon?: JSX.Element;
   className?: string;
 }) {

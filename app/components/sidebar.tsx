@@ -5,7 +5,7 @@ import styles from "./home.module.scss";
 import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
 import GithubIcon from "../icons/github.svg";
-import ChatGptIcon from "../icons/chatgpt.svg";
+import LawIcon from "../icons/law.svg";
 import AddIcon from "../icons/add.svg";
 import CloseIcon from "../icons/close.svg";
 import MaskIcon from "../icons/mask.svg";
@@ -116,7 +116,7 @@ export function SideBar(props: { className?: string }) {
   // switch themes
   const theme = config.theme;
   function nextTheme() {
-    const themes = [Theme.Auto, Theme.Light, Theme.Dark];
+    const themes = [Theme.Light, Theme.Dark];
     const themeIndex = themes.indexOf(theme);
     const nextIndex = (themeIndex + 1) % themes.length;
     const nextTheme = themes[nextIndex];
@@ -137,7 +137,7 @@ export function SideBar(props: { className?: string }) {
           L'assistant juridique qui répond à vos questions sur le droit du travail français.
         </div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
-          <ChatGptIcon />
+          <LawIcon />
         </div>
       </div>
 
@@ -193,12 +193,7 @@ export function SideBar(props: { className?: string }) {
             className={styles["sidebar-action"]}
             onClick={nextTheme}
           >
-          {theme === Theme.Auto ? (
-            <IconButton 
-            icon={<AutoIcon />} 
-            text={shouldNarrow ? undefined : Locale.Settings.Theme} 
-            shadow />
-          ) : theme === Theme.Light ? (
+          {theme === Theme.Light ? (
             <IconButton 
             icon={<LightIcon />} 
             text={shouldNarrow ? undefined : Locale.Settings.Theme} 
