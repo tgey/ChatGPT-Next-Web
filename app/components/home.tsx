@@ -45,7 +45,7 @@ const NewChat = dynamic(async () => (await import("./new-chat")).NewChat, {
   loading: () => <Loading noLogo />,
 });
 
-const MaskPage = dynamic(async () => (await import("./mask")).MaskPage, {
+const UploadPage = dynamic(async () => (await import("./upload")).UploadPage, {
   loading: () => <Loading noLogo />,
 });
 
@@ -73,9 +73,9 @@ export function useSwitchTheme() {
     //   metaDescriptionDark?.setAttribute("content", "#151515");
     //   metaDescriptionLight?.setAttribute("content", "#fafafa");
     // } else {
-      const themeColor = getCSSVar("--theme-color");
-      metaDescriptionDark?.setAttribute("content", themeColor);
-      metaDescriptionLight?.setAttribute("content", themeColor);
+    const themeColor = getCSSVar("--theme-color");
+    metaDescriptionDark?.setAttribute("content", themeColor);
+    metaDescriptionLight?.setAttribute("content", themeColor);
     // }
   }, [config.theme]);
 }
@@ -125,7 +125,7 @@ function Screen() {
         <Routes>
           <Route path={Path.Home} element={<Chat />} />
           <Route path={Path.NewChat} element={<NewChat />} />
-          {/* <Route path={Path.Masks} element={<MaskPage />} /> */}
+          <Route path={Path.Upload} element={<UploadPage />} />
           <Route path={Path.Chat} element={<Chat />} />
           <Route path={Path.Settings} element={<Settings />} />
         </Routes>

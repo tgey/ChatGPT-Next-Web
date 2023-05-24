@@ -132,9 +132,10 @@ export function SideBar(props: { className?: string }) {
       }`}
     >
       <div className={styles["sidebar-header"]}>
-        <div className={styles["sidebar-title"]}>JudiSearch</div>
+        <div className={styles["sidebar-title"]}>Néonomia</div>
         <div className={styles["sidebar-sub-title"]}>
-          L'assistant juridique qui répond à vos questions sur le droit du travail français.
+          L'assistant juridique qui répond à vos questions sur le droit du
+          travail français.
         </div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
           <LawIcon />
@@ -183,28 +184,32 @@ export function SideBar(props: { className?: string }) {
           </div>
           <div className={styles["sidebar-action"]}>
             <Link to={Path.Settings}>
-              <IconButton 
-              icon={<SettingsIcon />} 
-              text={shouldNarrow ? undefined : Locale.Settings.Title}
-              shadow />
+              <IconButton
+                icon={<SettingsIcon />}
+                text={shouldNarrow ? undefined : Locale.Settings.Title}
+                shadow
+              />
             </Link>
           </div>
-          <div 
-            className={styles["sidebar-action"]}
-            onClick={nextTheme}
-          >
-          {theme === Theme.Light ? (
-            <IconButton 
-            icon={<LightIcon />} 
-            text={shouldNarrow ? undefined : Locale.Settings.Theme} 
-            shadow />
-          ) : theme === Theme.Dark ? (
-            <IconButton 
-            icon={<DarkIcon />} 
-            text={shouldNarrow ? undefined : Locale.Settings.Theme} 
-            shadow />
-          ) : null}
-            
+          <div className={styles["sidebar-action"]}>
+            <Link to={Path.Upload}>
+              <IconButton icon={<SettingsIcon />} text="Upload" shadow />
+            </Link>
+          </div>
+          <div className={styles["sidebar-action"]} onClick={nextTheme}>
+            {theme === Theme.Light ? (
+              <IconButton
+                icon={<LightIcon />}
+                text={shouldNarrow ? undefined : Locale.Settings.Theme}
+                shadow
+              />
+            ) : theme === Theme.Dark ? (
+              <IconButton
+                icon={<DarkIcon />}
+                text={shouldNarrow ? undefined : Locale.Settings.Theme}
+                shadow
+              />
+            ) : null}
           </div>
         </div>
         <div>
