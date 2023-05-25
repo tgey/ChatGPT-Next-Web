@@ -11,7 +11,7 @@ import axios from "axios";
 
 export function UploadPage() {
   const [value, setValue] = useState("");
-  const [result, setResult] = useState("");
+  const [namespace, setNamespace] = useState(null);
   const [progress, setProgress] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null);
   const [data, setData] = useState([null]);
@@ -66,7 +66,7 @@ export function UploadPage() {
     let formData = new FormData();
 
     formData.append("file", file);
-    formData.append("type", "txt");
+    formData.append("type", "docx");
 
     const protocol = window.location.protocol.includes("https") ? "wss" : "ws";
     const baseurl = `http://${location.hostname}:8000/upload_tmp_file`;
@@ -76,43 +76,62 @@ export function UploadPage() {
           "Content-Type": "multipart/form-data",
         },
       });
-
       return response.data;
     } catch (error) {
       console.error(error);
       throw new Error("Failed to upload file.");
     }
+  }
 
-    return new Promise<any | void>((resolve, reject) => {
-      // const options: RequestInit = {
-      //   method: 'POST',
-      //   headers :{
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      //   body: formData,
-      // };
-      // fetch(baseurl, options)
-      //   .then((response) => {
-      //     if (!response.ok) {
-      //       throw new Error('Upload failed');
-      //     }
-      //     resolve('OK');
-      //   })
-      //   .catch((error) => {
-      //     reject(error);
-      //   });
-    });
+  async function deleteFile(): Promise<any | void> {
+    const protocol = window.location.protocol.includes("https") ? "wss" : "ws";
+    const baseurl = `http://${location.hostname}:8000/delete_tmp_file`;
+
+    try {
+      const requestBody = {
+        namespace: namespace,
+      };
+
+      const response = await axios.post(baseurl, requestBody, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("API response:", response.data);
+    } catch (error) {
+      console.error("API call failed:", error);
+    }
+
+    // try {
+    //   const response = await axios.post<string>(baseurl, formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    //   return response.data;
+    // } catch (error) {
+    //   console.error(error);
+    //   throw new Error("Failed to upload file.");
+    // }
   }
 
   const handlesubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     let formData = new FormData();
 
     setProgress(0);
     if (!file) return;
 
-    upload(file);
+    const res = await upload(file);
+    setNamespace(res);
+    console.log(res);
     // , (event: any) => {
     //   setProgress(Math.round((100 * event.loaded) / event.total));})
+  };
+
+  const deleteTmpFile = async () => {
+    const res = await deleteFile();
+    console.log(res);
   };
 
   const handleanalyze = async (e: { preventDefault: () => void }) => {
@@ -181,9 +200,9 @@ export function UploadPage() {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFile(event.target.files[0]);
+      console.log(file);
     }
     setProgress(0);
-    console.log(file);
   };
 
   const handleCopy = (txt: string | null) => {
@@ -250,16 +269,15 @@ export function UploadPage() {
             className={styles.textarea}
           />
           <label htmlFor="fileInput" className="label">
-            Choose a PDF file:
+            Choose a file(.pdf, .txt, .doc, .docx):
             <input
               id="fileInput"
               type="file"
-              accept=".pdf"
+              accept=".pdf, .txt, .docx, .doc"
               onChange={handleFileChange}
               className="file-input"
             />
           </label>
-
           {(value?.length > 0 || file) &&
             (submitting ? (
               <p className="text-md text-cyan-500 mt-5">
@@ -271,7 +289,11 @@ export function UploadPage() {
               </button>
             ))}
         </form>
-        {file && (
+        <button onClick={deleteTmpFile} className="upload-button">
+          Delete File
+        </button>
+
+        {/* {file && (
           <div className="progress my-3">
             <div
               className="progress-bar progress-bar-info"
@@ -284,7 +306,7 @@ export function UploadPage() {
               {progress}%
             </div>
           </div>
-        )}
+        )} */}
         {/* {summary && <p className="summary">{summary}</p>} */}
       </div>
 
